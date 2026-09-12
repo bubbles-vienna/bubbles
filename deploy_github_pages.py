@@ -8,7 +8,7 @@ import os
 import subprocess
 import json
 from pathlib import Path
-import getpass
+import re
 
 # Configuration file for storing credentials
 CONFIG_FILE = Path.home() / ".bubbles_github_config.json"
@@ -40,39 +40,37 @@ def get_credentials():
     print("="*60)
     
     # GitHub Username
-    if 'github_username' in config:
-        use_saved = input(f"\nUse saved username '{config['github_username']}'? (y/n): ").strip().lower()
+    saved_username = config.get('github_username', '').strip()
+    if saved_username and re.fullmatch(r"[A-Za-z0-9-]+", saved_username):
+        use_saved = input(f"\nUse saved username '{saved_username}'? (y/n): ").strip().lower()
         if use_saved == 'y':
-            username = config['github_username']
+            username = saved_username
         else:
             username = input("Enter your GitHub username: ").strip()
     else:
-        username = input("\nEnter your GitHub username: ").strip()
+        if saved_username:
+            print(f"\nSaved value '{saved_username}' is not a valid GitHub username.")
+        username = input("Enter your GitHub username from your GitHub profile URL: ").strip()
     
     if not username:
         print("✗ Username cannot be empty!")
         return None, None
-    
-    # GitHub Personal Access Token (or password)
-    print("\nFor secure authentication, you need a GitHub Personal Access Token.")
-    print("Create one here: https://github.com/settings/tokens")
-    print("  • Scopes needed: 'repo' (full control of private repositories)")
-    print("  • Name it: 'Bubbles Website Deploy'")
-    
-    token = getpass.getpass("\nEnter your GitHub Personal Access Token (will not be displayed): ").strip()
-    
-    if not token:
-        print("✗ Token cannot be empty!")
+
+    if not re.fullmatch(r"[A-Za-z0-9-]+", username):
+        print("✗ Enter your GitHub username, not your display name.")
+        print("  GitHub usernames may contain letters, numbers, and hyphens only.")
         return None, None
     
-    # Save credentials
+    print("\nGit will securely request your Personal Access Token during the first push.")
+    print("Create one here if needed: https://github.com/settings/tokens")
+
     save = input("\nSave credentials locally for future use? (y/n): ").strip().lower()
     if save == 'y':
         config['github_username'] = username
-        config['github_token'] = token
+        config.pop('github_token', None)
         save_config(config)
     
-    return username, token
+    return username, True
 
 def init_git_repo(repo_path):
     """Initialize git repository"""
@@ -133,7 +131,7 @@ def add_and_commit(repo_path):
         print(f"✗ Error committing: {e}")
         return False
 
-def push_to_github(repo_path, username, token):
+def push_to_github(repo_path, username):
     """Push repository to GitHub"""
     print("\n" + "="*60)
     print("PUSHING TO GITHUB")
@@ -156,8 +154,8 @@ def push_to_github(repo_path, username, token):
         print(f"  Repository: {repo_name}")
         print(f"  GitHub URL: https://github.com/{username}/{repo_name}")
         
-        # Set up remote with authentication
-        remote_url = f"https://{username}:{token}@github.com/{username}/{repo_name}.git"
+        # Keep credentials out of .git/config. Git Credential Manager will prompt securely.
+        remote_url = f"https://github.com/{username}/{repo_name}.git"
         
         # Remove existing remote if it exists
         try:
@@ -263,8 +261,8 @@ def main():
         return False
     
     # Step 1: Get credentials
-    username, token = get_credentials()
-    if not username or not token:
+    username, credentials_ready = get_credentials()
+    if not username or not credentials_ready:
         return False
     
     # Step 2: Initialize git
@@ -276,7 +274,7 @@ def main():
         return False
     
     # Step 4: Push to GitHub
-    if not push_to_github(repo_path, username, token):
+    if not push_to_github(repo_path, username):
         return False
     
     # Step 5: Display summary
