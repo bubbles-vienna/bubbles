@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bubbles — The Quiet Signal Experiment</title>
+    <meta name="description" content="Bubbles is a living experiment for people building thoughtful digital rituals, creative systems, and slower momentum." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="matrix-bg" aria-hidden="true"></div>
+      <div class="scanlines" aria-hidden="true"></div>
+      <div id="bubbleLayer" class="bubble-layer" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <div class="brand-wrap">
+          <span class="brand-mark">◉</span>
+          <span class="brand-name">Bubbles</span>
+        </div>
+        <nav class="topnav" aria-label="Main navigation">
+          <a href="#experiment">Experiment</a>
+          <a href="#benefits">Benefits</a>
+          <a href="#signup">Join</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero section">
+          <div class="hero-copy">
+            <p class="eyebrow">Quiet momentum, visible growth</p>
+            <h1>
+              The signal for people who want to build with<br />
+              <span class="highlight">more clarity</span> and less noise.
+            </h1>
+            <p class="lede">
+              Bubbles is a living experiment for creators, operators, and curious minds who want to
+              turn intention into a repeatable ritual—without the burnout loop.
+            </p>
+
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#signup">Join the experiment</a>
+              <a class="btn btn-secondary" href="#experiment">See how it works</a>
+            </div>
+
+            <div class="mini-meta">
+              <div>
+                <strong id="joinedCount">1284</strong>
+                <span>people already joined</span>
+              </div>
+              <div>
+                <strong>2.7x</strong>
+                <span>focus clarity boost</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-label="Experiment summary card">
+            <div class="card-grid">
+              <div class="stat-box">
+                <span class="label">pulse</span>
+                <strong>03</strong>
+                <small>weekly prompts</small>
+              </div>
+              <div class="stat-box accent">
+                <span class="label">mode</span>
+                <strong>AI</strong>
+                <small>+ human rhythm</small>
+              </div>
+              <div class="stat-box full">
+                <span class="label">current loop</span>
+                <strong>Notice → Plan → Ship</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="experiment" class="section info-block">
+          <div class="section-heading">
+            <p class="eyebrow">The experiment</p>
+            <h2>Built for attention that compounds.</h2>
+          </div>
+
+          <div class="info-grid">
+            <article class="info-card">
+              <span class="card-tag">01</span>
+              <h3>Small prompts, big traction</h3>
+              <p>
+                Instead of endless content generation, Bubbles helps you start with tiny, high-signal
+                decisions that keep momentum alive.
+              </p>
+            </article>
+            <article class="info-card">
+              <span class="card-tag">02</span>
+              <h3>Shared accountability</h3>
+              <p>
+                The system creates just enough structure to stay consistent, while making progress visible
+                and encouraging community rhythm.
+              </p>
+            </article>
+            <article class="info-card">
+              <span class="card-tag">03</span>
+              <h3>Measured rituals</h3>
+              <p>
+                Weekly experiments, coded check-ins, and visual progress markers keep the process simple,
+                alive, and honest.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="benefits" class="section benefits-block">
+          <div class="section-heading narrow">
+            <p class="eyebrow">Why people stay</p>
+            <h2>Designed to reduce noise and increase momentum.</h2>
+          </div>
+
+          <div class="benefits-grid">
+            <div class="benefit-item">
+              <span class="benefit-icon">✦</span>
+              <div>
+                <h3>Clear direction</h3>
+                <p>Know what matters this week without drowning in a backlog of tasks.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">◎</span>
+              <div>
+                <h3>Healthy rhythm</h3>
+                <p>Build systems that support focus, recovery, and sustainable output.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">▣</span>
+              <div>
+                <h3>Visible progress</h3>
+                <p>See the story of your work unfold in a way that keeps you moving.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-icon">◌</span>
+              <div>
+                <h3>Meaningful community</h3>
+                <p>Join a group of builders doing small experiments that compound over time.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="signup" class="section signup-block">
+          <div class="signup-panel">
+            <div class="signup-copy">
+              <p class="eyebrow">Early access</p>
+              <h2>Join the next wave of Bubbles members.</h2>
+              <p>
+                Get the weekly prompt pack, experimental insights, and the occasional note from the people
+                building this system in public.
+              </p>
+            </div>
+
+            <form id="signupForm" class="signup-form" novalidate>
+              <label class="sr-only" for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+              <button type="submit" class="btn btn-primary">Join now</button>
+              <p id="formMessage" class="form-message" aria-live="polite"></p>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
