@@ -1,52 +1,29 @@
-# Bubbles — The Quiet Signal Experiment
+# Bubbles Vienna
 
-A living experiment for people building thoughtful digital rituals, creative systems, and slower momentum.
+Bubbles is a temporary social layer over Vienna.
 
-Bubbles is for creators, operators, and curious minds who want to turn intention into a repeatable ritual—without the burnout loop.
+Thirty strangers share one loose week across the city. Everyone receives the same coordinates and joins whatever fits their life: breakfast, coworking, groceries, exhibitions, dinner, music, or nothing at all.
 
-## 🌐 View Live
+## Website
 
-Visit the site at: [https://your-github-username.github.io/bubbles-website/](https://your-github-username.github.io/bubbles-website/)
+The website is a static HTML, CSS, and JavaScript experience:
 
-*(Update the URL above with your actual GitHub username)*
+- `index.html` contains the invitation, schedule, explanation, and signup form.
+- `style.css` contains the monochrome editorial layout and responsive styles.
+- `script.js` controls the 30-circle counter, signup state, and sharing action.
 
-## 💡 About
+## Run locally
 
-- **What it is**: A quiet momentum signal built with intentional design
-- **Who it's for**: People seeking clarity and less noise in their creative practice
-- **Tech**: Static site with pre-animated sprite assets
-
-## 🎨 Sprites & Animations
-
-Animated sprites are pre-generated as GIFs in `/animations`:
-- **Bubbles**, **Hearts**, **Stars** — animated with progressive brightness shifts
-- Built with `sprite_processor.py` (not included in this deployment)
-
-## 🚀 Development
-
-The site is entirely static HTML/CSS/JavaScript—no backend required.
-
-### Local Development
-```bash
-# Option 1: Simple file serving
-python -m http.server 8000
-
-# Option 2: Python server
+```powershell
 python server.py
 ```
 
-Then visit `http://localhost:8000`
+Then open `http://localhost:8000/`.
 
-### Sprite Processing (Local Only)
-If you need to regenerate animations from source sprites:
-```bash
-python sprite_processor.py
+## Deploy
+
+```powershell
+python server.py --deploy
 ```
 
-## 📦 Deployment
-
-This site is deployed on **GitHub Pages** for free hosting.
-
-## 📄 License
-
-© 2025 Bubbles. All rights reserved.
+The live site is configured at https://bubbles-vienna.github.io/bubbles/.
