@@ -1,5 +1,6 @@
-const COUNT_KEY = 'bubblesViennaCount';
-const SIGNUP_KEY = 'bubblesViennaSignup';
+const SIGNUP_KEY = 'bubblesViennaFormspreeSignup';
+// Set this to the public endpoint from your Formspree dashboard.
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mwlpznnj';
 const DEFAULT_COUNT = 23;
 const TOTAL = 30;
 
@@ -11,9 +12,8 @@ const waitingState = document.getElementById('waitingState');
 const formMessage = document.getElementById('formMessage');
 
 function getCount() {
-  const saved = localStorage.getItem(COUNT_KEY);
-  const stored = Number(saved);
-  return saved !== null && Number.isFinite(stored) && stored >= 0 && stored <= TOTAL ? stored : DEFAULT_COUNT;
+  // Manually maintained; Formspree does not supply a public signup count.
+  return DEFAULT_COUNT;
 }
 
 function renderCount(count) {
@@ -30,7 +30,9 @@ function renderCount(count) {
 }
 
 function showWaitingState() {
-  if (localStorage.getItem(SIGNUP_KEY)) {
+  let signedUp = false;
+  try { signedUp = localStorage.getItem(SIGNUP_KEY) === 'true'; } catch (_) {}
+  if (signedUp) {
     form.hidden = true;
     waitingState.hidden = false;
   }
@@ -45,15 +47,45 @@ function validateForm() {
   return true;
 }
 
-form.addEventListener('submit', (event) => {
+let submitting = false;
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (submitting) return;
   if (!validateForm()) { form.reportValidity(); return; }
-  const count = Math.min(getCount() + 1, TOTAL);
-  localStorage.setItem(COUNT_KEY, String(count));
-  localStorage.setItem(SIGNUP_KEY, 'true');
-  renderCount(count);
-  showWaitingState();
-  document.getElementById('join').scrollIntoView({ behavior: 'smooth' });
+  if (!FORMSPREE_ENDPOINT) {
+    formMessage.textContent = 'Signups are not available yet. Please check back soon.';
+    return;
+  }
+  const button = form.querySelector('button[type="submit"]');
+  const originalLabel = button.innerHTML;
+  submitting = true;
+  button.disabled = true;
+  button.textContent = 'Sending...';
+  form.setAttribute('aria-busy', 'true');
+  formMessage.textContent = '';
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' },
+    });
+    if (!response.ok) {
+      formMessage.textContent = 'Your signup could not be accepted. Please try again shortly.';
+      return;
+    }
+    // Storage is optional: a browser restriction must not hide a successful signup.
+    try { localStorage.setItem(SIGNUP_KEY, 'true'); } catch (_) {}
+    form.hidden = true;
+    waitingState.hidden = false;
+    document.getElementById('join').scrollIntoView({ behavior: 'smooth' });
+  } catch (_) {
+    formMessage.textContent = 'We could not confirm your signup. Please check your connection and try again.';
+  } finally {
+    submitting = false;
+    button.disabled = false;
+    button.innerHTML = originalLabel;
+    form.removeAttribute('aria-busy');
+  }
 });
 
 document.querySelector('[data-share]').addEventListener('click', async (event) => {
