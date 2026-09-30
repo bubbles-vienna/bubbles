@@ -34,8 +34,8 @@
 
 The script will ask for:
 - **GitHub Username**: Your GitHub username
-- **Personal Access Token**: The token you just created
-- **Save credentials**: Choose `y` to save for future deployments
+- **Personal Access Token**: The token you just created. It is used to create the repository through GitHub's API and is not saved locally.
+- **Save credentials**: Choose `y` to save your username for future deployments
 
 ### Step 4: Your Site is Live! 🎉
 
@@ -66,7 +66,8 @@ https://YOUR-USERNAME.github.io/
 ✓ Initializes a git repository  
 ✓ Stages and commits all your files  
 ✓ Creates repository as `USERNAME.github.io` (automatically enables GitHub Pages)  
-✓ Configures GitHub remote with authentication  
+✓ Creates the GitHub repository through the GitHub API  
+✓ Configures the GitHub remote and pushes your commit  
 ✓ Pushes to GitHub  
 ✓ Saves credentials locally (encrypted)  
 ✓ Generates deployment links  
