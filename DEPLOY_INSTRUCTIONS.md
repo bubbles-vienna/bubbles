@@ -42,11 +42,11 @@ The script will ask for:
 After the script completes, your website is automatically live at:
 
 ```
-https://YOUR-USERNAME.github.io/
+https://YOUR-USERNAME.github.io/bubbles/
 ```
 
 **No additional steps needed!** The script automatically:
-- Creates a repository named `YOUR-USERNAME.github.io`
+- Creates a repository named `bubbles`
 - Enables GitHub Pages automatically
 - Deploys your site
 
@@ -56,8 +56,8 @@ https://YOUR-USERNAME.github.io/
 
 ## What Gets Created
 
-- Repository: `https://github.com/YOUR-USERNAME/YOUR-USERNAME.github.io`
-- Live Site: `https://YOUR-USERNAME.github.io/` (clean URL, no repo name!)
+- Repository: `https://github.com/YOUR-USERNAME/bubbles`
+- Live Site: `https://YOUR-USERNAME.github.io/bubbles/`
 
 ---
 
@@ -65,7 +65,7 @@ https://YOUR-USERNAME.github.io/
 
 ✓ Initializes a git repository  
 ✓ Stages and commits all your files  
-✓ Creates repository as `USERNAME.github.io` (automatically enables GitHub Pages)  
+✓ Creates repository as `bubbles`  
 ✓ Creates the GitHub repository through the GitHub API  
 ✓ Configures the GitHub remote and pushes your commit  
 ✓ Pushes to GitHub  
@@ -107,9 +107,9 @@ After deployment, you'll have:
 
 | Link | Purpose |
 |------|---------|
-| `https://github.com/YOUR-USERNAME/YOUR-USERNAME.github.io` | Repository code |
-| `https://github.com/YOUR-USERNAME/YOUR-USERNAME.github.io/settings` | Repo settings |
-| `https://YOUR-USERNAME.github.io/` | **Your live website** |
+| `https://github.com/YOUR-USERNAME/bubbles` | Repository code |
+| `https://github.com/YOUR-USERNAME/bubbles/settings` | Repo settings |
+| `https://YOUR-USERNAME.github.io/bubbles/` | **Your live website** |
 
 ---
 

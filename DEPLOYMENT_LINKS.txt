@@ -1,0 +1,12 @@
+BUBBLES WEBSITE - DEPLOYMENT LINKS
+==================================================
+
+Repository: https://github.com/universitymateodercon-ux/universitymateodercon-ux.github.io
+Live Site: https://universitymateodercon-ux.github.io/
+Settings: https://github.com/universitymateodercon-ux/universitymateodercon-ux.github.io/settings
+Pages Settings: https://github.com/universitymateodercon-ux/universitymateodercon-ux.github.io/settings/pages
+
+CREDENTIALS SAVED
+==================================================
+Config file: C:\Users\PCUser\.bubbles_github_config.json
+(Securely stored with restricted permissions)

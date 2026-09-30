@@ -15,6 +15,7 @@ from urllib.request import Request, urlopen
 
 # Configuration file for storing credentials
 CONFIG_FILE = Path.home() / ".bubbles_github_config.json"
+REPOSITORY_NAME = "bubbles"
 
 def load_config():
     """Load stored GitHub credentials"""
@@ -88,7 +89,7 @@ def create_github_repo(username, token, repo_name):
     payload = json.dumps({
         "name": repo_name,
         "description": "Bubbles website",
-        "homepage": f"https://{username}.github.io/",
+        "homepage": f"https://{username}.github.io/{REPOSITORY_NAME}/",
         "has_issues": False,
         "has_projects": False,
         "has_wiki": False,
@@ -192,7 +193,7 @@ def push_to_github(repo_path, username, token):
     
     os.chdir(repo_path)
     
-    repo_name = f"{username}.github.io"
+    repo_name = REPOSITORY_NAME
     
     try:
         # Ensure main branch
@@ -248,7 +249,7 @@ def enable_github_pages_instructions(username, repo_name):
     print("="*60)
     
     repo_url = f"https://github.com/{username}/{repo_name}"
-    pages_url = f"https://{username}.github.io/"
+    pages_url = f"https://{username}.github.io/{repo_name}/"
     settings_url = f"{repo_url}/settings/pages"
     
     print(f"\n✓ Your GitHub Pages site is configured!")
@@ -270,7 +271,7 @@ def display_summary(username, repo_name):
     print("="*60)
     
     repo_url = f"https://github.com/{username}/{repo_name}"
-    pages_url = f"https://{username}.github.io/"
+    pages_url = f"https://{username}.github.io/{repo_name}/"
     
     print(f"\n✓ Repository: {repo_url}")
     print(f"✓ Live Website: {pages_url}")
@@ -333,7 +334,7 @@ def main():
         return False
     
     # Step 5: Display summary
-    repo_name = f"{username}.github.io"
+    repo_name = REPOSITORY_NAME
     display_summary(username, repo_name)
     
     # Step 6: Instructions for GitHub Pages
@@ -343,7 +344,7 @@ def main():
     print("✓ DEPLOYMENT COMPLETE!")
     print("="*60)
     print("\n✨ Your site is now live at:")
-    print(f"   https://{username}.github.io/")
+    print(f"   https://{username}.github.io/{repo_name}/")
     print("\nNo further steps needed—GitHub Pages is auto-enabled!")
     print("Site goes live in 1-2 minutes.\n")
     print("="*60 + "\n")
