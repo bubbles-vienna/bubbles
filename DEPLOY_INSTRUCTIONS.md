@@ -30,6 +30,14 @@
    python deploy_github_pages.py
    ```
 
+For future updates after the `bubbles` repository exists, use the server file directly:
+
+```powershell
+python server.py --deploy
+```
+
+This stages changed files, creates an update commit, and pushes to the existing repository. It does not create a new GitHub repository.
+
 ### Step 3: Follow the Script Prompts
 
 The script will ask for:

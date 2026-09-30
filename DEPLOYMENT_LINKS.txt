@@ -1,10 +1,10 @@
 BUBBLES WEBSITE - DEPLOYMENT LINKS
 ==================================================
 
-Repository: https://github.com/universitymateodercon-ux/universitymateodercon-ux.github.io
-Live Site: https://universitymateodercon-ux.github.io/
-Settings: https://github.com/universitymateodercon-ux/universitymateodercon-ux.github.io/settings
-Pages Settings: https://github.com/universitymateodercon-ux/universitymateodercon-ux.github.io/settings/pages
+Repository: https://github.com/bubbles-vienna/bubbles
+Live Site: https://bubbles-vienna.github.io/bubbles/
+Settings: https://github.com/bubbles-vienna/bubbles/settings
+Pages Settings: https://github.com/bubbles-vienna/bubbles/settings/pages
 
 CREDENTIALS SAVED
 ==================================================
