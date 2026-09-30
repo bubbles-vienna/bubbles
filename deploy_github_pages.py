@@ -9,6 +9,9 @@ import subprocess
 import json
 from pathlib import Path
 import re
+from getpass import getpass
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 # Configuration file for storing credentials
 CONFIG_FILE = Path.home() / ".bubbles_github_config.json"
@@ -61,8 +64,12 @@ def get_credentials():
         print("  GitHub usernames may contain letters, numbers, and hyphens only.")
         return None, None
     
-    print("\nGit will securely request your Personal Access Token during the first push.")
+    print("\nA GitHub Personal Access Token is required to create the repository.")
     print("Create one here if needed: https://github.com/settings/tokens")
+    token = getpass("Enter your GitHub Personal Access Token: ").strip()
+    if not token:
+        print("✗ Token cannot be empty!")
+        return None, None, None
 
     save = input("\nSave credentials locally for future use? (y/n): ").strip().lower()
     if save == 'y':
@@ -70,7 +77,53 @@ def get_credentials():
         config.pop('github_token', None)
         save_config(config)
     
-    return username, True
+    return username, token, True
+
+def create_github_repo(username, token, repo_name):
+    """Create the GitHub repository if it does not already exist."""
+    print("\n" + "="*60)
+    print("CREATING GITHUB REPOSITORY")
+    print("="*60)
+
+    payload = json.dumps({
+        "name": repo_name,
+        "description": "Bubbles website",
+        "homepage": f"https://{username}.github.io/",
+        "has_issues": False,
+        "has_projects": False,
+        "has_wiki": False,
+        "auto_init": False,
+    }).encode("utf-8")
+    request = Request(
+        "https://api.github.com/user/repos",
+        data=payload,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {token}",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json",
+            "User-Agent": "bubbles-website-deployer",
+        },
+        method="POST",
+    )
+
+    try:
+        with urlopen(request) as response:
+            if response.status == 201:
+                print(f"✓ Repository created: https://github.com/{username}/{repo_name}")
+                return True
+    except HTTPError as error:
+        if error.code == 422:
+            print("✓ Repository already exists; continuing with deployment")
+            return True
+        print(f"✗ GitHub rejected repository creation ({error.code}).")
+        print("  Confirm the token has permission to create repositories.")
+    except URLError as error:
+        print(f"✗ Could not reach GitHub: {error.reason}")
+    except Exception as error:
+        print(f"✗ Error creating GitHub repository: {error}")
+
+    return False
 
 def init_git_repo(repo_path):
     """Initialize git repository"""
@@ -131,7 +184,7 @@ def add_and_commit(repo_path):
         print(f"✗ Error committing: {e}")
         return False
 
-def push_to_github(repo_path, username):
+def push_to_github(repo_path, username, token):
     """Push repository to GitHub"""
     print("\n" + "="*60)
     print("PUSHING TO GITHUB")
@@ -139,7 +192,6 @@ def push_to_github(repo_path, username):
     
     os.chdir(repo_path)
     
-    # Repository name for clean GitHub Pages URL
     repo_name = f"{username}.github.io"
     
     try:
@@ -151,6 +203,9 @@ def push_to_github(repo_path, username):
             subprocess.run(["git", "branch", "-M", "main"], 
                           check=True, capture_output=True)
         
+        if not create_github_repo(username, token, repo_name):
+            return False
+
         print(f"  Repository: {repo_name}")
         print(f"  GitHub URL: https://github.com/{username}/{repo_name}")
         
@@ -261,8 +316,8 @@ def main():
         return False
     
     # Step 1: Get credentials
-    username, credentials_ready = get_credentials()
-    if not username or not credentials_ready:
+    username, token, credentials_ready = get_credentials()
+    if not username or not token or not credentials_ready:
         return False
     
     # Step 2: Initialize git
@@ -274,7 +329,7 @@ def main():
         return False
     
     # Step 4: Push to GitHub
-    if not push_to_github(repo_path, username):
+    if not push_to_github(repo_path, username, token):
         return False
     
     # Step 5: Display summary
